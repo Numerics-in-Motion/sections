@@ -1,0 +1,216 @@
+{
+ "kill_line": {
+  "fail": [],
+  "passed": true,
+  "rule": "the race dies if the triangle-hexagon gap is inside the tie fraction",
+  "triangle_hexagon_gap_pct": 5.833848702029825
+ },
+ "length_axis": [
+  {
+   "L_m": 3.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 3.8107857672185474,
+   "triangle_hexagon_gap_pct": 5.833848702029825
+  },
+  {
+   "L_m": 4.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 6.325120381614705,
+   "triangle_hexagon_gap_pct": 10.43919308798518
+  },
+  {
+   "L_m": 5.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 9.264126189231874,
+   "triangle_hexagon_gap_pct": 16.243716230460578
+  },
+  {
+   "L_m": 6.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 12.243510858641692,
+   "triangle_hexagon_gap_pct": 20.473639712523017
+  },
+  {
+   "L_m": 7.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 14.718271939764419,
+   "triangle_hexagon_gap_pct": 22.466686738153566
+  },
+  {
+   "L_m": 8.0,
+   "order": [
+    "box",
+    "tube",
+    "hexagon",
+    "triangle",
+    "I-section",
+    "solid rod"
+   ],
+   "spread": 16.370989946436584,
+   "triangle_hexagon_gap_pct": 23.288816374456676
+  }
+ ],
+ "model": {
+  "E_Pa": 200000000000.0,
+  "envelope_m": 0.2,
+  "estimand": "load at first yield under an L/1000 bow, weakest centroidal axis",
+  "f_y_Pa": 250000000.0,
+  "length_m": 3.0,
+  "orientation": "every polygon flat-side-down; the extreme fibre is the vertex",
+  "rule": "equal area inside one 200 x 200 mm bounding envelope; each shape as large as it fits, wall thickness derived",
+  "scope": "idealised planar column. No local buckling of the walls, no residual stresses, and no design resistance is computed",
+  "steel_area_m2": 0.004
+ },
+ "numbers": {
+  "hex_P": 903716.6365240121,
+  "hex_over_i": 2.492435338600886,
+  "hex_over_rod": 3.6404747872483845,
+  "hex_over_tri": 1.0619527146603853,
+  "hex_rank": 3,
+  "spread": 3.8107857672185474,
+  "tri_P": 850995.1752541284,
+  "tri_hex_gap": 5.833848702029825,
+  "tri_over_i": 2.347030431950986,
+  "tri_over_rod": 3.4280949961247713,
+  "tri_rank": 4,
+  "worst_area_err": 3.469446951953614e-18
+ },
+ "parent_agreement": {
+  "note": "the four sections an earlier study published, reproduced before any new section is computed; the solver refuses to run if this fails",
+  "rows": {
+   "box": {
+    "published_N": 943972.83,
+    "rel_err": 1.815348179098091e-10,
+    "reproduced_N": 943972.829828636
+   },
+   "hollow_tube": {
+    "published_N": 899508.44,
+    "rel_err": 2.3580294289201354e-10,
+    "reproduced_N": 899508.4397878932
+   },
+   "i_section": {
+    "published_N": 356399.44,
+    "rel_err": 5.046875078257429e-09,
+    "reproduced_N": 356399.43820129655
+   },
+   "solid_circle": {
+    "published_N": 249233.02,
+    "rel_err": 1.1295492614027997e-08,
+    "reproduced_N": 249233.01718479025
+   }
+  },
+  "tolerance": 1e-06,
+  "worst_rel_err": 1.1295492614027997e-08
+ },
+ "primary": {
+  "I-section": {
+   "I_min_m4": 2.3357841812257417e-06,
+   "P_euler_N": 512294.7963337885,
+   "P_first_yield_N": 362583.78403160826,
+   "area_m2": 0.0040000000000000036,
+   "gap_to_above_pct": 57.392968306391204,
+   "rank": 5,
+   "tied_with_above": false
+  },
+  "box": {
+   "I_min_m4": 2.5333333333333317e-05,
+   "P_euler_N": 5556221.736909561,
+   "P_first_yield_N": 945994.8763076963,
+   "area_m2": 0.004,
+   "gap_to_above_pct": null,
+   "rank": 1,
+   "tied_with_above": false
+  },
+  "hexagon": {
+   "I_min_m4": 1.5383666068467503e-05,
+   "P_euler_N": 3374015.518538575,
+   "P_first_yield_N": 903716.6365240121,
+   "area_m2": 0.004,
+   "gap_to_above_pct": 2.1572666136517475,
+   "rank": 3,
+   "tied_with_above": true
+  },
+  "solid rod": {
+   "I_min_m4": 1.2732395447351626e-06,
+   "P_euler_N": 279252.6803190927,
+   "P_first_yield_N": 248241.42161057983,
+   "area_m2": 0.004,
+   "gap_to_above_pct": 31.535431935108445,
+   "rank": 6,
+   "tied_with_above": false
+  },
+  "triangle": {
+   "I_min_m4": 1.1793732615494336e-05,
+   "P_euler_N": 2586655.007270089,
+   "P_first_yield_N": 850995.1752541284,
+   "area_m2": 0.0040000000000000036,
+   "gap_to_above_pct": 5.833848702029825,
+   "rank": 4,
+   "tied_with_above": false
+  },
+  "tube": {
+   "I_min_m4": 1.872676045526483e-05,
+   "P_euler_N": 4107238.164609509,
+   "P_first_yield_N": 923642.0582768647,
+   "area_m2": 0.004,
+   "gap_to_above_pct": 2.362889968080663,
+   "rank": 2,
+   "tied_with_above": true
+  }
+ },
+ "registration": "six sections holding the same steel area inside one common envelope; the load at first yield of a pinned column with an L/1000 bow",
+ "source_sha256": {
+  "column_fem": "b81ee523443e66bae91a326e2a1f8dc24fa5530904705079fe5d060706100913",
+  "column_geometry": "97fa6ab76a2be3f4d8d37e6d79467d64edb4f7fbeaa6bbc764f1be93f4d912f1",
+  "failure": "4dc4699978563971d3f86a5e1456d32ad65cfe0a3629c1532cedbf535101fbae",
+  "fem": "613651d8f2f556a2a283635d46c20ba163b01802ed47e963e411649b36907b1f",
+  "geometry": "87604ae6dbec85a4333bef6581e1139f99ac26c461dd5bb53701bc3b04ddb329",
+  "materials": "0401fac363201a0237b2329c6ba5f55cdc5cf190ad20b9030acb34dad5c74730",
+  "section_properties": "0aee661f81f382f72bd329db3e7bf0a1f3ffe31b3ed3d0d8071610f5748fb7e2",
+  "six_sections": "5df04c3bf4115a28de17a1924018d8c8947ebef06aa4c3d5add6d5a94e662562",
+  "six_sections_checks": "d2a33ef751c88371b6f826a03e4bcb6be8268ac1bcfb3b08dc1a7964a79ecb50",
+  "six_sections_run": "b3deb3368ed8bafa0c46b0f14f5ce65a4a7f4750e06a105ad371c156b6c85244",
+  "utils": "6be98a3583e51f143939bbe988316e818f6392209ea0f4c0efa75522e6c77f4a"
+ },
+ "tie_fraction": 0.03,
+ "tolerances": {
+  "area_abs_m2": 1e-12,
+  "load_rel": 1e-09,
+  "parent_rel": 1e-06
+ }
+}
