@@ -1,0 +1,124 @@
+{
+ "class3_boundary": {
+  "M_onset_kNm": 86.38540988001363,
+  "epsilon": 0.8136165134668271,
+  "limit_c_over_t": 34.17189356560674,
+  "source": "EN 1993-1-1 Table 5.2, internal compression part, 42 eps",
+  "t_mm": 5.332147135766822
+ },
+ "kill_line": {
+  "fail": [],
+  "passed": true
+ },
+ "model": {
+  "E_Pa": 210000000000.0,
+  "f_y_Pa": 355000000.0,
+  "first_limit": "M_onset = Z_e min(f_y, sigma_cr)",
+  "geometry": "B = A/(4t) + t, flat width b = A/(4t) - t, from A = B^2 - (B - 2t)^2",
+  "plate_coefficient_k": 4.0,
+  "poisson": 0.3,
+  "scope": "elastic first yield and an ideal plate limit only: no residual stresses, no imperfections, no post-buckling reserve, and no design resistance is computed",
+  "sigma_cr": "k pi^2 E / (12 (1 - nu^2)) (t/b)^2, classical simply supported plate",
+  "steel_area_m2": 0.004
+ },
+ "optimum": {
+  "B_mm": 221.95964716370068,
+  "M_onset_kNm": 100.79586013897958,
+  "c_over_t": 46.24491867161846,
+  "note": "an analytic root, not a grid maximum, and it lies BETWEEN the 5 mm and 4 mm display cells",
+  "root": "t = sqrt(A / (4 (q + 1))), q = sqrt(k pi^2 E / (12 (1 - nu^2) f_y))",
+  "t_mm": 4.600684450822283
+ },
+ "primary": {
+  "10.0": {
+   "B_mm": 110.0,
+   "M_onset_kNm": 43.46060606060607,
+   "Mcr_kNm": 1147.4632875881612,
+   "My_kNm": 43.46060606060607,
+   "c_over_t": 9.0,
+   "governs": "yield"
+  },
+  "12.0": {
+   "B_mm": 95.33333333333333,
+   "M_onset_kNm": 35.194374514374495,
+   "Mcr_kNm": 2129.995794938789,
+   "My_kNm": 35.194374514374495,
+   "c_over_t": 5.944444444444445,
+   "governs": "yield"
+  },
+  "3.0": {
+   "B_mm": 336.3333333333333,
+   "M_onset_kNm": 27.583895260015836,
+   "Mcr_kNm": 27.583895260015836,
+   "My_kNm": 156.38310978967078,
+   "c_over_t": 110.1111111111111,
+   "governs": "ideal flange buckling"
+  },
+  "4.0": {
+   "B_mm": 254.0,
+   "M_onset_kNm": 65.87222969357691,
+   "Mcr_kNm": 65.87222969357691,
+   "My_kNm": 116.49963254593182,
+   "c_over_t": 61.5,
+   "governs": "ideal flange buckling"
+  },
+  "5.0": {
+   "B_mm": 205.00000000000003,
+   "M_onset_kNm": 92.41544715447164,
+   "Mcr_kNm": 129.94015939567814,
+   "My_kNm": 92.41544715447164,
+   "c_over_t": 39.0,
+   "governs": "yield"
+  },
+  "6.0": {
+   "B_mm": 172.66666666666666,
+   "M_onset_kNm": 76.24626340626347,
+   "Mcr_kNm": 227.40370639541598,
+   "My_kNm": 76.24626340626347,
+   "c_over_t": 26.777777777777775,
+   "governs": "yield"
+  },
+  "8.0": {
+   "B_mm": 133.0,
+   "M_onset_kNm": 55.8355388471178,
+   "Mcr_kNm": 558.2734856954038,
+   "My_kNm": 55.8355388471178,
+   "c_over_t": 14.624999999999998,
+   "governs": "yield"
+  }
+ },
+ "ratios": {
+  "peak_over_thick": 2.863976460153067,
+  "peak_over_thin": 3.6541561367182234,
+  "thick_pct": 34.916488103626186,
+  "thin_pct": 27.366099383429585
+ },
+ "registration": "square hollow box of fixed steel area; the moment at the first of two elastic limits, swept over wall thickness",
+ "sensitivity": {
+  "k=4": {
+   "M_onset_kNm": 100.79586013897958,
+   "t_mm": 4.600684450822283
+  },
+  "k=5": {
+   "M_onset_kNm": 106.67914930220833,
+   "t_mm": 4.355928283960284
+  },
+  "k=6": {
+   "M_onset_kNm": 111.73336683312525,
+   "t_mm": 4.165284723880857
+  },
+  "k=7": {
+   "M_onset_kNm": 116.18831595286194,
+   "t_mm": 4.010399549060353
+  }
+ },
+ "source_sha256": {
+  "box_wall": "6a811c0e99bbac45006aee1f5733be51a59da706984d277494b91a16eb799afe",
+  "box_wall_checks": "eb89d077bf1ad32532785131abdbc98ffc7d169b7f94fe2d535194c7b11ad2ac",
+  "box_wall_run": "bf3a62c7ef371dcb377fb2ba5ff5e12c27afd1f8da6ba5497ef108c94d2b82ef"
+ },
+ "tolerances": {
+  "area_abs_m2": 1e-12,
+  "moment_rel": 1e-09
+ }
+}
