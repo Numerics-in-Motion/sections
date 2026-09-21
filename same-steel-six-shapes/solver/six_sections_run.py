@@ -27,6 +27,9 @@ def build():
     by = {r["name"]: r for r in rows}
     tri, hexa = by["triangle"], by["hexagon"]
     tri_hex_gap = 100.0 * (hexa["P"] - tri["P"]) / hexa["P"]
+    groups = S.partial_order(rows)
+    # the group the hexagon shares, if any: the sections this rule cannot separate it from
+    hex_group = next(g for g in groups if "hexagon" in g)
 
     lengths = []
     for c in S.curve():
@@ -42,6 +45,10 @@ def build():
     if tri_hex_gap < 100 * S.TIE_FRACTION:
         fail.append("triangle-hexagon gap %.2f %% is inside the %.0f %% tie fraction"
                     % (tri_hex_gap, 100 * S.TIE_FRACTION))
+    # the claim is where the two REQUESTED shapes land, so the triangle must be separated from
+    # the group the hexagon sits in -- otherwise there is no placement to report at all
+    if "triangle" in hex_group:
+        fail.append("the triangle is not separated from the hexagon's group %s" % hex_group)
     worst_area = max(abs(r["area"] - S.AREA) for r in rows)
     if worst_area > S.AREA_TOL:
         fail.append("area error %.3e exceeds %.1e" % (worst_area, S.AREA_TOL))
@@ -53,6 +60,10 @@ def build():
         tie_fraction=S.TIE_FRACTION,
         parent=dict(worst=parent["worst"], tol=parent["tol"], rows=parent["rows"]),
         rows=[{k: v for k, v in r.items()} for r in rows],
+        partial_order=groups,
+        hexagon_group=hex_group,
+        closed_form={r["name"]: S.capacity_closed_form(dict(S.sections())[r["name"]], S.LENGTH)
+                     for r in rows},
         lengths=lengths,
         numbers=dict(
             tri_P=tri["P"], hex_P=hexa["P"], tri_rank=tri["rank"], hex_rank=hexa["rank"],
@@ -83,8 +94,13 @@ def main():
               % (row["rank"], row["name"], row["P"] / 1e3, 1e6 * row["I"], g,
                  "  TIE" if row["tied_with_above"] else ""))
     n = r["numbers"]
-    print("\n  hexagon rank %d, triangle rank %d, gap %.2f %% (kill line %.0f %%)"
-          % (n["hex_rank"], n["tri_rank"], n["tri_hex_gap"], 100 * r["tie_fraction"]))
+    print("\n  partial order under the %.0f %% tie rule:" % (100 * r["tie_fraction"]))
+    for i, g in enumerate(r["partial_order"], 1):
+        print("     %d. %s%s" % (i, " = ".join(g), "   (unresolved)" if len(g) > 1 else ""))
+    print("\n  the hexagon is unresolved from: %s"
+          % ", ".join(x for x in r["hexagon_group"] if x != "hexagon") or "nothing")
+    print("  triangle-hexagon gap %.2f %% (kill line %.0f %%)"
+          % (n["tri_hex_gap"], 100 * r["tie_fraction"]))
     print("  hexagon is %.2fx the I-section and %.2fx the rod; triangle %.2fx and %.2fx"
           % (n["hex_over_i"], n["hex_over_rod"], n["tri_over_i"], n["tri_over_rod"]))
     print("\n  length axis (disclosed, not selected from):")

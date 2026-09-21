@@ -3,7 +3,7 @@
   "fail": [],
   "passed": true,
   "rule": "the race dies if the triangle-hexagon gap is inside the tie fraction",
-  "triangle_hexagon_gap_pct": 5.833848702029825
+  "triangle_hexagon_gap_pct": 6.299564606707923
  },
  "length_axis": [
   {
@@ -16,8 +16,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 3.8107857672185474,
-   "triangle_hexagon_gap_pct": 5.833848702029825
+   "spread": 3.8455910073354023,
+   "triangle_hexagon_gap_pct": 6.299564606707923
   },
   {
    "L_m": 4.0,
@@ -29,8 +29,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 6.325120381614705,
-   "triangle_hexagon_gap_pct": 10.43919308798518
+   "spread": 6.363738964963936,
+   "triangle_hexagon_gap_pct": 10.45130276775526
   },
   {
    "L_m": 5.0,
@@ -42,8 +42,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 9.264126189231874,
-   "triangle_hexagon_gap_pct": 16.243716230460578
+   "spread": 9.237778398055697,
+   "triangle_hexagon_gap_pct": 16.366553533259978
   },
   {
    "L_m": 6.0,
@@ -55,8 +55,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 12.243510858641692,
-   "triangle_hexagon_gap_pct": 20.473639712523017
+   "spread": 12.298386989052947,
+   "triangle_hexagon_gap_pct": 20.62566423295505
   },
   {
    "L_m": 7.0,
@@ -68,8 +68,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 14.718271939764419,
-   "triangle_hexagon_gap_pct": 22.466686738153566
+   "spread": 14.767121718045766,
+   "triangle_hexagon_gap_pct": 22.63266802388729
   },
   {
    "L_m": 8.0,
@@ -81,8 +81,8 @@
     "I-section",
     "solid rod"
    ],
-   "spread": 16.370989946436584,
-   "triangle_hexagon_gap_pct": 23.288816374456676
+   "spread": 16.349270295425942,
+   "triangle_hexagon_gap_pct": 23.336007405488317
   }
  ],
  "model": {
@@ -97,16 +97,16 @@
   "steel_area_m2": 0.004
  },
  "numbers": {
-  "hex_P": 903716.6365240121,
-  "hex_over_i": 2.492435338600886,
-  "hex_over_rod": 3.6404747872483845,
-  "hex_over_tri": 1.0619527146603853,
+  "hex_P": 910984.1900054152,
+  "hex_over_i": 2.1752197313283554,
+  "hex_over_rod": 3.655150510536006,
+  "hex_over_tri": 1.0672309000514943,
   "hex_rank": 3,
-  "spread": 3.8107857672185474,
-  "tri_P": 850995.1752541284,
-  "tri_hex_gap": 5.833848702029825,
-  "tri_over_i": 2.347030431950986,
-  "tri_over_rod": 3.4280949961247713,
+  "spread": 3.8455910073354023,
+  "tri_P": 853596.1523991292,
+  "tri_hex_gap": 6.299564606707923,
+  "tri_over_i": 2.0381903590154673,
+  "tri_over_rod": 3.424891942652376,
   "tri_rank": 4,
   "worst_area_err": 3.469446951953614e-18
  },
@@ -141,16 +141,16 @@
   "I-section": {
    "I_min_m4": 2.3357841812257417e-06,
    "P_euler_N": 512294.7963337885,
-   "P_first_yield_N": 362583.78403160826,
+   "P_first_yield_N": 418800.9960028721,
    "area_m2": 0.0040000000000000036,
-   "gap_to_above_pct": 57.392968306391204,
+   "gap_to_above_pct": 50.9368692881541,
    "rank": 5,
    "tied_with_above": false
   },
   "box": {
    "I_min_m4": 2.5333333333333317e-05,
    "P_euler_N": 5556221.736909561,
-   "P_first_yield_N": 945994.8763076963,
+   "P_first_yield_N": 958448.2496168992,
    "area_m2": 0.004,
    "gap_to_above_pct": null,
    "rank": 1,
@@ -159,38 +159,38 @@
   "hexagon": {
    "I_min_m4": 1.5383666068467503e-05,
    "P_euler_N": 3374015.518538575,
-   "P_first_yield_N": 903716.6365240121,
+   "P_first_yield_N": 910984.1900054152,
    "area_m2": 0.004,
-   "gap_to_above_pct": 2.1572666136517475,
+   "gap_to_above_pct": 1.4223558513503791,
    "rank": 3,
    "tied_with_above": true
   },
   "solid rod": {
    "I_min_m4": 1.2732395447351626e-06,
    "P_euler_N": 279252.6803190927,
-   "P_first_yield_N": 248241.42161057983,
+   "P_first_yield_N": 249233.01718479025,
    "area_m2": 0.004,
-   "gap_to_above_pct": 31.535431935108445,
+   "gap_to_above_pct": 40.488914887136275,
    "rank": 6,
    "tied_with_above": false
   },
   "triangle": {
-   "I_min_m4": 1.1793732615494336e-05,
-   "P_euler_N": 2586655.007270089,
-   "P_first_yield_N": 850995.1752541284,
-   "area_m2": 0.0040000000000000036,
-   "gap_to_above_pct": 5.833848702029825,
+   "I_min_m4": 1.1793732615494332e-05,
+   "P_euler_N": 2586655.0072700884,
+   "P_first_yield_N": 853596.1523991292,
+   "area_m2": 0.003999999999999997,
+   "gap_to_above_pct": 6.299564606707923,
    "rank": 4,
    "tied_with_above": false
   },
   "tube": {
    "I_min_m4": 1.872676045526483e-05,
    "P_euler_N": 4107238.164609509,
-   "P_first_yield_N": 923642.0582768647,
+   "P_first_yield_N": 924128.5870371396,
    "area_m2": 0.004,
-   "gap_to_above_pct": 2.362889968080663,
+   "gap_to_above_pct": 3.580752804700462,
    "rank": 2,
-   "tied_with_above": true
+   "tied_with_above": false
   }
  },
  "registration": "six sections holding the same steel area inside one common envelope; the load at first yield of a pinned column with an L/1000 bow",
@@ -202,9 +202,9 @@
   "geometry": "87604ae6dbec85a4333bef6581e1139f99ac26c461dd5bb53701bc3b04ddb329",
   "materials": "0401fac363201a0237b2329c6ba5f55cdc5cf190ad20b9030acb34dad5c74730",
   "section_properties": "0aee661f81f382f72bd329db3e7bf0a1f3ffe31b3ed3d0d8071610f5748fb7e2",
-  "six_sections": "5df04c3bf4115a28de17a1924018d8c8947ebef06aa4c3d5add6d5a94e662562",
+  "six_sections": "23d7a39461bc7031dd6f81e8ebf48f0d3e938ab4aca285bd9ad5135988adf51b",
   "six_sections_checks": "d2a33ef751c88371b6f826a03e4bcb6be8268ac1bcfb3b08dc1a7964a79ecb50",
-  "six_sections_run": "b3deb3368ed8bafa0c46b0f14f5ce65a4a7f4750e06a105ad371c156b6c85244",
+  "six_sections_run": "73d524f3a1138bb79c4882368751859fed94c9a71561184f5d6bb07455e88d1c",
   "utils": "6be98a3583e51f143939bbe988316e818f6392209ea0f4c0efa75522e6c77f4a"
  },
  "tie_fraction": 0.03,

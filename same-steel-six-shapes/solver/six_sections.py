@@ -78,9 +78,14 @@ def polygon_vertices(n, R):
     """A regular n-gon of circumradius R, FLAT SIDE DOWN.
 
     The orientation is registered, not incidental: a rotated polygon has a different bounding
-    box and would be sized differently by the envelope rule. The review named this explicitly.
+    box and would be sized differently by the envelope rule.
+
+    `pi/2 + pi/n` puts a flat side down only for EVEN n. For n = 3 it put a VERTEX down and a
+    flat side up -- the opposite of the registration, and it shipped that way. An odd polygon
+    needs no offset: a vertex at the top leaves a flat side at the bottom.
     """
-    th = np.pi / 2.0 + np.pi / n + 2.0 * np.pi * np.arange(n) / n
+    phase = np.pi / 2.0 + (np.pi / n if n % 2 == 0 else 0.0)
+    th = phase + 2.0 * np.pi * np.arange(n) / n
     return np.c_[R * np.cos(th), R * np.sin(th)]
 
 
@@ -126,10 +131,18 @@ def hollow_polygon_properties(area, n, envelope=ENVELOPE):
     a_in, ix_in, iy_in = shoelace(vi)
     apothem = R * np.cos(np.pi / n)
     ix, iy = ix_out - ix_in, iy_out - iy_in
+    # The TRUE extreme fibre about each drawn axis. `c_x` goes with `I_x`, which is bending
+    # about the horizontal axis, so it is the largest |y|. Setting both to R was geometrically
+    # false: a flat-side-down hexagon reaches 0.0866 m vertically and 0.1000 m horizontally.
+    # Equal inertia about every axis does not make the extreme fibre equal in every direction.
+    cx_true = float(np.abs(vo[:, 1]).max())
+    cy_true = float(np.abs(vo[:, 0]).max())
     return dict(kind="hollow_polygon_%d" % n, n=n, area=a_out - a_in, R=R, inner_scale=s,
                 I_x=ix, I_y=iy, I_min=min(ix, iy), t=apothem * (1.0 - s),
                 across_flats=2.0 * apothem,
-                c_x=R, c_y=R,                     # the extreme fibre is the VERTEX
+                c_x=cx_true, c_y=cy_true,
+                # the direction the COLUMN is analysed in -- see `solver_section`
+                c_governing=R,
                 outer_dim=2.0 * R,
                 bbox_w=float(np.ptp(vo[:, 0])), bbox_h=float(np.ptp(vo[:, 1])),
                 vertices_outer=vo, vertices_inner=vi)
@@ -152,11 +165,32 @@ def sections(area=AREA, envelope=ENVELOPE):
         out.append((name, hollow_polygon_properties(area, n, envelope)))
     for name, s in out:
         s.setdefault("I_min", min(s["I_x"], s["I_y"]))
-        s["c_max"] = max(s.get("c_x", 0.0), s.get("c_y", 0.0))
+        s["c_max"] = solver_section(s)["c_x"]        # the governing fibre, not the larger key
         err = abs(s["area"] - area)
         if err > AREA_TOL:
             raise ValueError("%s: area error %.3e exceeds %.1e" % (name, err, AREA_TOL))
     return out
+
+
+def solver_section(sec):
+    """The section AS THE SOLVER SEES IT: one inertia, and the extreme fibre that goes with it.
+
+    A pin-ended column with no directional restraint may buckle in any direction. For the four
+    parent sections the weak axis settles that, and `section_properties.fibre_for` returns the
+    fibre belonging to `I_min`. For a regular polygon the inertia is the same about every
+    centroidal axis, so the weak axis does NOT settle it -- what settles it is the extreme
+    fibre, and the critical direction is the one that reaches furthest, which points at a
+    VERTEX. That direction is registered and it is written down here rather than implied by a
+    key someone has to guess at.
+    """
+    if "c_governing" in sec:
+        c = sec["c_governing"]
+    else:
+        c = sp.fibre_for(sec, sec["I_min"])
+    return dict(kind=sec["kind"], area=sec["area"],
+                I_x=sec["I_min"], I_y=sec["I_min"], I_min=sec["I_min"],
+                c_x=c, c_y=c, outer_dim=sec.get("outer_dim", 2.0 * c),
+                c_governing=c)
 
 
 # --------------------------------------------------------------------------- the parent gate
@@ -183,13 +217,33 @@ def parent_agreement(tol=PARENT_TOL):
 
 # --------------------------------------------------------------------------- capacity
 def capacity(sec, L, mat=None):
-    """First-yield load under the earlier study's L/1000 bow, from 020's own closed form.
+    """THE REGISTERED ESTIMAND: first yield from the earlier study's own non-linear FEM.
 
-    `column_fem.analytical_imperfect_capacity` is the parent's function, not a re-derivation.
+    This called `analytical_imperfect_capacity` -- the closed form -- while the registration
+    named `run_nonlinear_column`. The registration said one thing and the code did another, and
+    nine gates passed because they all read this function's output. The difference is not
+    cosmetic: the I-section moves about 15 %, and which pairs sit inside the 3 % tie rule
+    changes with it.
+
+    The closed form is still computed, by `capacity_closed_form`, as a CONTROL.
     """
     mat = mat or material()
+    cfg = config()
+    g, sv = cfg["geometry"], cfg["solver"]
+    col = CG.build_column(sec["kind"], solver_section(sec), L, int(g["n_elements"]),
+                          float(g["imperfection_ratio"]))
+    r = CF.run_nonlinear_column(col, mat, sv["n_load_steps"], sv["load_max_factor"],
+                                sv["newton_max_iter"], sv["newton_tol"])
+    return float(r.failure_load)
+
+
+def capacity_closed_form(sec, L, mat=None):
+    """The parent's closed form, kept as an independent control on the FEM, never as the
+    estimand."""
+    mat = mat or material()
+    ss = solver_section(sec)
     return float(CF.analytical_imperfect_capacity(
-        mat.E, sec["I_min"], sec["area"], sec["c_max"], L,
+        mat.E, ss["I_min"], ss["area"], ss["c_x"], L,
         config()["geometry"]["imperfection_ratio"] * L, mat.failure_stress,
         config()["solver"]["effective_length_factor"]))
 
@@ -198,6 +252,25 @@ def euler(sec, L, mat=None):
     mat = mat or material()
     K = config()["solver"]["effective_length_factor"]
     return float(np.pi ** 2 * mat.E * sec["I_min"] / (K * L) ** 2)
+
+
+def partial_order(rows, tie=TIE_FRACTION):
+    """The order the result SUPPORTS: adjacent pairs inside the tie rule are not separated.
+
+    A point-estimate rank is not a conclusion when the pair above is unresolved. This returns
+    groups: consecutive sections whose gap is inside the rule share a group and are reported as
+    unresolved with each other, never as first and second.
+    """
+    groups, cur = [], [rows[0]["name"]]
+    for i in range(1, len(rows)):
+        gap = 100.0 * (rows[i - 1]["P"] - rows[i]["P"]) / rows[i - 1]["P"]
+        if gap < 100 * tie:
+            cur.append(rows[i]["name"])
+        else:
+            groups.append(cur)
+            cur = [rows[i]["name"]]
+    groups.append(cur)
+    return groups
 
 
 def race(L=LENGTH, area=AREA, envelope=ENVELOPE):

@@ -5,12 +5,23 @@ inside the same **200 × 200 mm** envelope with its wall thickness derived. One 
 **3.000 m**, with an L/1000 bow. The question two viewers asked of an earlier study: where do a
 triangular and a hexagonal hollow section land?
 
-**The hexagon lands third at 903.7 kN and the triangle fourth at 851.0 kN, 5.83 % apart.** Both
-carry more than twice the I-section and more than three times the solid rod.
+**The triangle reaches first yield at 853.6 kN — fourth of six, and separated. The hexagon
+reaches 911.0 kN, which is 6.30 % above the triangle but only 1.42 % below the tube: inside the
+study’s pre-set 3 % pairwise tie rule, so it is not given a place of its own.**
 
-*The top three are within 3 % of the one above and this model does not separate them.*
-*An idealised planar column at first yield: no local buckling of the walls, no residual
-stresses, and no design resistance is computed anywhere in this repository.*
+The supported result is a PARTIAL order:
+
+```
+box  >  { tube , hexagon }  >  triangle  >  I-section  >  solid rod
+             unresolved
+```
+
+In this model the first-yield loads of both new shapes are more than twice the I-section’s and
+more than three times the solid rod’s.
+
+*First-yield loads from an idealised planar-column model — not design capacities. The model
+excludes local wall buckling and residual stresses; no design resistance is computed anywhere in
+this repository.*
 
 ## The rule, which is a choice
 
@@ -25,28 +36,36 @@ part of the rule: a rotated polygon has a different bounding box and would be si
 
 ## Results at 3.000 m
 
+`run_nonlinear_column`, the earlier study’s own non-linear FEM, is the estimand. The closed
+form is a control and is not what is reported.
+
 | rank | section | first yield (kN) | I_min (1e-6 m⁴) | gap to above (%) | |
 |---|---|---|---|---|---|
-| 1 | box | 946.0 | 25.3333 | - |  |
-| 2 | tube | 923.6 | 18.7268 | 2.36 | tie |
-| 3 | hexagon | 903.7 | 15.3837 | 2.16 | tie |
-| 4 | triangle | 851.0 | 11.7937 | 5.83 |  |
-| 5 | I-section | 362.6 | 2.3358 | 57.39 |  |
-| 6 | solid rod | 248.2 | 1.2732 | 31.54 |  |
+| 1 | box | 958.4 | 25.3333 | - |  |
+| 2 | tube | 924.1 | 18.7268 | 3.58 |  |
+| 3 | hexagon | 911.0 | 15.3837 | 1.42 | tie |
+| 4 | triangle | 853.6 | 11.7937 | 6.30 |  |
+| 5 | I-section | 418.8 | 2.3358 | 50.94 |  |
+| 6 | solid rod | 249.2 | 1.2732 | 40.49 |  |
+
+A gap inside the pre-set 3 % rule means the pair is **not separated by this study’s
+reporting convention** — not that the model failed to distinguish them. The rule is pairwise
+and does not chain: box–tube is outside it, tube–hexagon inside it, box–hexagon outside it.
 
 ## The order does not depend on the length
 
 | L (m) | order | triangle–hexagon gap (%) | spread |
 |---|---|---|---|
-| 3.0 | box > tube > hexagon > triangle > I-section > solid rod | 5.83 | 3.81 |
-| 4.0 | box > tube > hexagon > triangle > I-section > solid rod | 10.44 | 6.33 |
-| 5.0 | box > tube > hexagon > triangle > I-section > solid rod | 16.24 | 9.26 |
-| 6.0 | box > tube > hexagon > triangle > I-section > solid rod | 20.47 | 12.24 |
-| 7.0 | box > tube > hexagon > triangle > I-section > solid rod | 22.47 | 14.72 |
-| 8.0 | box > tube > hexagon > triangle > I-section > solid rod | 23.29 | 16.37 |
+| 3.0 | box > tube > hexagon > triangle > I-section > solid rod | 6.30 | 3.85 |
+| 4.0 | box > tube > hexagon > triangle > I-section > solid rod | 10.45 | 6.36 |
+| 5.0 | box > tube > hexagon > triangle > I-section > solid rod | 16.37 | 9.24 |
+| 6.0 | box > tube > hexagon > triangle > I-section > solid rod | 20.63 | 12.30 |
+| 7.0 | box > tube > hexagon > triangle > I-section > solid rod | 22.63 | 14.77 |
+| 8.0 | box > tube > hexagon > triangle > I-section > solid rod | 23.34 | 16.35 |
 
-The ranking is identical at every length tested. Only the gaps widen. The length was not
-selected: 3.000 m is the earlier study's own baseline and is the first row.
+The numerical order is identical at every length tested, and **every adjacent gap widens
+monotonically** across the range. The length was not selected: 3.000 m is the earlier study’s
+own baseline and is the first row. This is a robustness disclosure, not a second result.
 
 ## Parent agreement — the gate that runs first
 
@@ -60,12 +79,16 @@ published, and **refuses to run if it cannot**:
 | i_section | 356399.44 | 356399.44 | 5.05e-09 |
 | solid_circle | 249233.02 | 249233.02 | 1.13e-08 |
 
-Worst 1.13e-08 against a tolerance of 1e-06. The four earlier shapes are reproduced, not revised.
+Worst 1.13e-08 against a tolerance of 1e-06. The four earlier shapes are reproduced **in their own
+configuration**, not revised; the six shown above are recomputed under the common envelope.
 
 ## Kill line
 
 Written before the registered run: the race dies if the triangle–hexagon gap — the comparison
-that was actually asked for — falls inside the 3 % tie fraction. It is **5.83 %**.
+that was actually asked for — falls inside the 3 % tie rule. It is **6.30 %**.
+
+A clause was added after review: the race also dies if the triangle is not separated from
+the group the hexagon sits in, because then there would be no placement to report at all.
 
 ## Reproduce
 
